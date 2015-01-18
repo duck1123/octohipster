@@ -10,11 +10,12 @@
   if there's no Host header."
   [handler]
   (fn [req]
-    (binding [*host* (str (-> req :scheme name)
-                          "://"
-                          (or (get-in req [:headers "host"])
-                              (-> req :server-name)))]
-      (handler req))))
+    (let [scheme (or (get-in req [:headers "x-forwarded-proto"])
+                     (-> req :scheme name))
+          host (or (get-in req [:headers "host"])
+                   (-> req :server-name))]
+      (binding [*host* (str scheme "://" host)]
+        (handler req)))))
 
 (def ^:dynamic *context*
   "Current URL prefix (:context)"
