@@ -10,7 +10,7 @@
              "</hello>; rel=\"next\"")
     (should= (make-link-header [{:href "/hello" :rel "next"}
                                 {:href "/test" :rel "root" :title "thingy"}])
-             "</hello>; rel=\"next\", </test>; title=\"thingy\" rel=\"root\"")))
+             "</hello>; rel=\"next\", </test>; rel=\"root\" title=\"thingy\"")))
 
 (describe "wrap-link-header"
   (it "does not return the header when there are no :links"

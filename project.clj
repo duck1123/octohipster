@@ -3,7 +3,7 @@
   :url "https://github.com/duck1123/octohipster"
   :license {:name "Apache License 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
                  [ring/ring-core "1.2.0-beta3"]
                  [ring.middleware.jsonp "0.1.2"]
                  [liberator "0.8.0"]
