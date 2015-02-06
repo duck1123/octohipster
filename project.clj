@@ -7,7 +7,7 @@
                  [org.clojure/tools.logging "0.3.1"]
                  [ring/ring-core "1.4.0"]
                  [ring.middleware.jsonp "0.1.6"]
-                 [liberator "0.8.0"
+                 [liberator "0.13"
                   :exclusions [hiccup]]
                  [clout "2.1.2"]
                  [cheshire "5.5.0"]
