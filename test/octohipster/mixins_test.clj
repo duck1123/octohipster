@@ -1,7 +1,8 @@
 (ns octohipster.mixins-test
   (:use [octohipster mixins core routes json]
         [ring.mock request])
-  (:require [midje.sweet :refer :all]))
+  (:require [clojure.tools.logging :as log]
+            [midje.sweet :refer :all]))
 
 (def post-bin (atom nil))
 

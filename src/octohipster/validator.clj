@@ -6,7 +6,8 @@
            [com.fasterxml.jackson.databind JsonNode ObjectMapper]
            [java.io StringWriter])
   (:require [cheshire.core :as json]
-            [cheshire.factory :as factory])
+            [cheshire.factory :as factory]
+            [clojure.tools.logging :as log])
   (:use [octohipster json util]
         [octohipster.handlers util]))
 

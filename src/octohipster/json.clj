@@ -1,6 +1,7 @@
 (ns octohipster.json
-  (:require [cheshire.core :as json])
-  (:use [octohipster util]))
+  (:require [cheshire.core :as json]
+            [clojure.tools.logging :as log]
+            [octohipster.util :refer :all]))
 
 (defn jsonify [x] (json/generate-string x))
 

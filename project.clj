@@ -4,6 +4,7 @@
   :license {:name "Apache License 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/tools.logging "0.3.1"]
                  [ring/ring-core "1.4.0"]
                  [ring.middleware.jsonp "0.1.6"]
                  [liberator "0.8.0"

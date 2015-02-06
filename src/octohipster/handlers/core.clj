@@ -1,6 +1,7 @@
 (ns octohipster.handlers.core
   (:use [octohipster.link util]
-        [octohipster util]))
+        [octohipster util])
+  (:require [clojure.tools.logging :as log]))
 
 (defn wrap-handler-request-links [handler]
   (fn [ctx]

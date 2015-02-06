@@ -1,7 +1,8 @@
 (ns octohipster.handlers.hal
   (:use [octohipster.handlers util]
         [octohipster.link util]
-        [octohipster json util]))
+        [octohipster json util])
+  (:require [clojure.tools.logging :as log]))
 
 (defn- add-self-link [ctx rel x]
   (assoc x :_links {:self {:href (self-link ctx rel x)}}))

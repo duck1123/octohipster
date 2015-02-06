@@ -2,7 +2,8 @@
   (:use [octohipster.handlers util]
         [octohipster.link util]
         [octohipster json util]
-        [org.bovinegenius.exploding-fish :only [normalize-path]]))
+        [org.bovinegenius.exploding-fish :only [normalize-path]])
+  (:require [clojure.tools.logging :as log]))
 
 (defn- transform-map [[k v]]
   {:name k, :value (if (map? v) (mapv transform-map v) v)})

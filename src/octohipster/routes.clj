@@ -1,5 +1,6 @@
 (ns octohipster.routes
-  (:use [ring.middleware params keyword-params nested-params jsonp]
+  (:use [clojure.tools.logging :as log]
+        [ring.middleware params keyword-params nested-params jsonp]
         [octohipster.documenters schema]
         [octohipster.params core json cj edn yaml]
         [octohipster.link header middleware]

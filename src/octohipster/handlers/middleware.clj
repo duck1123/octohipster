@@ -1,6 +1,7 @@
 (ns octohipster.handlers.middleware
   "Ring middleware for modifying the response before it gets
-  encoded into the serialization format passed by handlers.")
+  encoded into the serialization format passed by handlers."
+  (:require [clojure.tools.logging :as log]))
 
 (defn wrap-response-envelope [handler]
   (fn [req]

@@ -1,6 +1,7 @@
 (ns octohipster.pagination
   (:use [octohipster util]
-        [org.bovinegenius.exploding-fish :only [param]]))
+        [org.bovinegenius.exploding-fish :only [param]])
+  (:require [clojure.tools.logging :as log]))
 
 (def ^:dynamic *skip*
   "Skip parameter for database queries" 0)

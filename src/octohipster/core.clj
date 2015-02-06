@@ -3,7 +3,8 @@
   creating resources, groups and routes."
   (:require [liberator.core :as lib]
             [clout.core :as clout]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [clojure.tools.logging :as log])
   (:use [octohipster util]))
 
 (defn resource

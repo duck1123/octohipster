@@ -14,7 +14,8 @@
   context as an argument, not a Ring request.
   When you create your own, follow the naming convention:
   wrap-handler-*, not wrap-*."
-  (:require [liberator.conneg :as neg])
+  (:require [clojure.tools.logging :as log]
+            [liberator.conneg :as neg])
   (:use [octohipster util host]
         [octohipster.handlers core]))
 

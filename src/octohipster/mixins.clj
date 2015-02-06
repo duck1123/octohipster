@@ -1,5 +1,6 @@
 (ns octohipster.mixins
-  (:require [liberator.core :as lib])
+  (:require [clojure.tools.logging :as log]
+            [liberator.core :as lib])
   (:use [octohipster pagination problems validator util]
         [octohipster.handlers core json edn yaml hal cj util]
         [octohipster.link util]))
