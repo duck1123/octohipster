@@ -16,7 +16,7 @@
                  [clj-yaml "0.4.0"]
                  [inflections "0.9.14"]
                  [org.bovinegenius/exploding-fish "0.3.4"]
-                 [com.github.fge/json-schema-validator "2.1.3"]
+                 [com.github.fge/json-schema-validator "2.2.6"]
                  [com.damnhandy/handy-uri-templates "2.0.2"]]
   :profiles {:dev {:dependencies [[midje "1.7.0"                  :exclusions [org.clojure/clojure]]
                                   [com.novemberain/monger "3.0.0" :exclusions [org.clojure/clojure]]
