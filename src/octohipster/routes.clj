@@ -21,6 +21,16 @@
             [ring.middleware.nested-params :refer [wrap-nested-params]]
             [ring.middleware.params :refer [wrap-params]]))
 
+(defprotocol GroupContainer
+  (add-group [this group]))
+
+(defrecord Application
+    []
+
+  GroupContainer
+  (add-group [this group]
+    (log/info "adding group")))
+
 (defn routes
   "Creates a Ring handler that routes requests to provided groups
   and documenters."
