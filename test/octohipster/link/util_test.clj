@@ -2,12 +2,11 @@
   (:require [midje.sweet :refer :all]
             [octohipster.link.util :refer :all]))
 
-(facts "clinks-as-map"
+(facts "#'octohipster.link.util/clinks-as-map"
   (fact "when given multiple clinks"
-    (let [l [[:foo  "/foo/{name}"]
-             [:bar "/bar/{name}"]]]
-      (clinks-as-map l) =>
-      (contains [[:foo  {:href "/foo/{name}"}]
+    (let [links [[:foo "/foo/{name}"] [:bar "/bar/{name}"]]]
+      (clinks-as-map links) =>
+      (contains [[:foo {:href "/foo/{name}"}]
                  [:bar {:href "/bar/{name}"}]]
                 :in-any-order))))
 
