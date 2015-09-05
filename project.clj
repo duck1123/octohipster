@@ -20,7 +20,10 @@
   :profiles {:dev {:dependencies [[midje "1.7.0"                  :exclusions [org.clojure/clojure]]
                                   [com.novemberain/monger "3.0.0" :exclusions [org.clojure/clojure]]
                                   [http-kit "2.1.19"              :exclusions [org.clojure/clojure]]
-                                  [ring-mock "0.1.5"              :exclusions [org.clojure/clojure]]]}}
+                                  [ring-mock "0.1.5"              :exclusions [org.clojure/clojure]]
+                                  [org.slf4j/slf4j-api "1.7.12"]
+                                  [org.slf4j/slf4j-log4j12 "1.7.12"]
+                                  [org.apache.logging.log4j/log4j-core "2.3"]]}}
   :plugins [[codox "0.8.10"]
             [lein-ancient "0.6.7"]
             [lein-release "1.1.3"]
