@@ -1,6 +1,6 @@
-(defproject octohipster "0.2.1-SNAPSHOT"
+(defproject net.kronkltd/octohipster "0.3.0-SNAPSHOT"
   :description "A hypermedia REST HTTP API library for Clojure"
-  :url "https://github.com/myfreeweb/octohipster"
+  :url "https://github.com/duck1123/octohipster"
   :license {:name "Apache License 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :dependencies [[org.clojure/clojure "1.5.1"]
@@ -28,6 +28,6 @@
   :warn-on-reflection true
   :jar-exclusions [#"example.clj"]
   :codox {:exclude example
-          :src-dir-uri "https://github.com/myfreeweb/octohipster/blob/master"
+          :src-dir-uri "https://github.com/duck1123/octohipster/blob/master"
           :src-linenum-anchor-prefix "L"}
   :test-paths ["spec/"])
