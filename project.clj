@@ -25,7 +25,6 @@
   :lein-release {:deploy-via :lein-deploy}
   :repositories [["snapshots" {:url "https://clojars.org/repo" :creds :gpg}]
                  ["releases"  {:url "https://clojars.org/repo" :creds :gpg}]]
-  :warn-on-reflection true
   :jar-exclusions [#"example.clj"]
   :codox {:exclude example
           :src-dir-uri "https://github.com/duck1123/octohipster/blob/master"
