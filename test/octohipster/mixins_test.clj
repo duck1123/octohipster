@@ -2,6 +2,7 @@
   (:use [octohipster mixins core routes json]
         [ring.mock request])
   (:require [clojure.tools.logging :as log]
+            [midje.checking.core :as checking]
             [midje.sweet :refer :all]))
 
 (def post-bin (atom nil))
@@ -35,15 +36,16 @@
     (let [req (-> (request :get "/test")
                   (header "Accept" "application/hal+json"))]
       (test-app req)
-      => (contains {:headers (contains {"Content-Type" "application/hal+json"})
-                    :body #(= (unjsonify %)
-                              {:_links {:item {:href "/test/{name}"
-                                               :templated true}
-                                        :self {:href "/test"}}
-                               :_embedded {:things [{:_links {:self {:href "/test/a"}}
-                                                     :name "a"}
-                                                    {:_links {:self {:href "/test/b"}}
-                                                         :name "b"}]}})})))
+      => (every-checker
+          (contains {:headers (contains
+                               {"Content-Type" "application/hal+json"})})
+          (fn [m]
+            (checking/extended-=
+             (unjsonify (:body m))
+             {:_links {:item {:href "/test/{name}" :templated true}
+                       :self {:href "/test"}}
+              :_embedded {:things [{:_links {:self {:href "/test/a"}} :name "a"}
+                                   {:_links {:self {:href "/test/b"}} :name "b"}]}})))))
 
   (fact "creates items"
     (let [req (-> (request :post "/test")
