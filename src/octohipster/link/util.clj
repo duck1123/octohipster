@@ -33,8 +33,12 @@
   suitable for use as the :see-other parameter in a resource."
   [rel]
   (fn [ctx]
-    (let [tpl (uri-template-for-rel {:link-templates (links-as-seq (clinks-as-map ((:clinks (:resource ctx)))))} rel)
-          {:keys [params]} (:request ctx)
-          item-key ((-> ctx :resource :item-key))
-          vars (merge params (item-key ctx))]
-      (expand-uri-template tpl vars))))
+    (let [clinks ((:clinks (:resource ctx)))
+          lctx {:link-templates (-> clinks clinks-as-map links-as-seq)}]
+      (if-let [tpl (uri-template-for-rel lctx rel)]
+        (let [{:keys [params]} (:request ctx)
+              item-key ((-> ctx :resource :item-key))
+              vars (merge params (item-key ctx))]
+          (expand-uri-template tpl vars))
+        (throw (IllegalArgumentException.
+                (str "No matching templates for " rel " were found in: " (pr-str clinks))))))))
