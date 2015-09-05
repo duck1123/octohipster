@@ -14,7 +14,8 @@
 (def mapper (ObjectMapper.))
 
 (defn ^JsonNode clojure->jsonnode [x]
-  (JsonLoader/fromString (json/generate-string x))) ; any better way of doing this?
+  ;; any better way of doing this?
+  (JsonLoader/fromString (json/generate-string x)))
 
 (defn ^JsonValidator make-validator-object []
   (.getValidator (JsonSchemaFactory/byDefault)))
@@ -37,12 +38,13 @@
   "Ring middleware that validates any POST/PUT requests
   (:non-query-params) against a given JSON Schema."
   [handler schema]
-  (let [v (make-validator schema)]
-    (fn [req]
-      (if (#{:post :put} (-> req :request-method))
-        (let [result (-> req :non-query-params v)]
+  (let [validate (make-validator schema)]
+    (fn [request]
+      (if (#{:post :put} (:request-method request))
+        (let [document (:non-query-params request)
+              result (validate document)]
           (if (is-success? result)
-            (handler req)
+            (handler request)
             {:body {:errors (to-clojure result)}
              :problem :invalid-data}))
-        (handler req)))))
+        (handler request)))))
