@@ -61,8 +61,9 @@
                     (map #(assoc % :match (clout/route-matches (:route %) req)))
                     (filter :match)
                     first)]
-      (let [{:keys [handler match]} h]
-        (handler (assoc req :route-params match)))
+      (let [{:keys [handler match]} h
+            request (assoc req :route-params match)]
+        (handler request))
       {:body {}
        :problem :resource-not-found})))
 

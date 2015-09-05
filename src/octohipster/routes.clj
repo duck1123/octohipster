@@ -32,8 +32,8 @@
                                                   :title "Resource not found"}
                              :invalid-data {:status 422
                                             :title "Invalid data"}}}
-        options (merge defaults (apply hash-map body))
-        {:keys [documenters groups params]} options
+        {:keys [documenters groups params]
+         :as options} (merge defaults (apply hash-map body))
         problems (merge (:problems defaults) (:problems options))
         resources (mapcat :resources (gen-groups groups))
         raw-resources (mapcat :resources groups)
