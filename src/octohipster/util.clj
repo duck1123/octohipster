@@ -11,7 +11,9 @@
 
 (defn uri [req] (or (:path-info req) (:uri req)))
 
-(defn uri-template-for-rel [ctx rel]
+(defn uri-template-for-rel
+  "Returns the template from the link templates in the context that matches the rel key"
+  [ctx rel]
   (-> (filter #(= (:rel %) rel) (or (-> ctx :link-templates) []))
       first
       :href))
