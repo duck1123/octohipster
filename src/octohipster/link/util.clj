@@ -18,7 +18,9 @@
 (defn links-as-seq [l]
   (mapv (fn [[k v]] (assoc v :rel k)) l))
 
-(defn clinks-as-map [l]
+(defn clinks-as-map
+  "Given a sequence of keyword and template pairs, returns a sequence of keyword and link map pairs"
+  [l]
   (->> l
        (apply concat)
        (apply hash-map)
