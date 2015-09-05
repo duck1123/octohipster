@@ -1,5 +1,6 @@
 (ns octohipster.util
-  (:require [clojure.string :as string])
+  (:require [clojure.string :as string]
+            [clojure.tools.logging :as log])
   (:import [com.damnhandy.uri.template UriTemplate]
            [java.net URLEncoder]))
 

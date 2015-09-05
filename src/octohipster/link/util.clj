@@ -1,7 +1,8 @@
 (ns octohipster.link.util
   (:use [octohipster util]
         [org.bovinegenius.exploding-fish :only [normalize-path]])
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [clojure.tools.logging :as log]))
 
 (defn prepend-to-href [uri-context l]
   (assoc l :href (normalize-path (str uri-context (:href l)))))
