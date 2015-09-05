@@ -33,14 +33,14 @@
           dk (:data-key rsp)
           result (dk rsp)
           links (-> rsp response-links-and-templates links-as-map)
-          ik (if-let [from-ctx (-> ctx :resource :item-key)]
-               (from-ctx)
-               :item)
+          item-key (if-let [from-ctx (log/spy :info (-> ctx :resource :item-key))]
+                     (from-ctx)
+                     :item)
           result (cond
                    (map? result) (embedify ctx result)
                    (nil? result) {:_embedded (:_embedded rsp)}
                    :else {:_embedded {dk (map (partial embedify ctx)
-                                              (map (partial add-self-link ctx (name ik))
+                                              (map (partial add-self-link ctx (name item-key))
                                                    result))}})]
       (log/spy :info (-> ctx resp-common
            (assoc :encoder jsonify)
