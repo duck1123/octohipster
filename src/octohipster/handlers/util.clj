@@ -73,7 +73,7 @@
         (assoc :body (-> ctx hdlr data-from-result)))))
 
 (defn wrap-apply-encoder [handler]
-                                        ; used as ring middleware in apps, as handler wrapper in unit tests
+  ;; used as ring middleware in apps, as handler wrapper in unit tests
   (fn [req]
     (let [rsp (handler req)]
       (if-let [enc (:encoder rsp)]
