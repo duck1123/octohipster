@@ -14,13 +14,13 @@
                  [org.bovinegenius/exploding-fish "0.3.3"]
                  [com.github.fge/json-schema-validator "2.1.3"]
                  [com.damnhandy/handy-uri-templates "1.1.7"]]
-  :profiles {:dev {:dependencies [[speclj "2.7.2"                 :exclusions [org.clojure/clojure]]
+  :profiles {:dev {:dependencies [[midje "1.7.0"                  :exclusions [org.clojure/clojure]]
                                   [com.novemberain/monger "1.4.2" :exclusions [org.clojure/clojure]]
                                   [http-kit "2.1.1"               :exclusions [org.clojure/clojure]]
                                   [ring-mock "0.1.3"              :exclusions [org.clojure/clojure]]]}}
-  :plugins [[speclj "2.7.2"]
-            [codox "0.6.4"]
-            [lein-release "1.0.0"]]
+  :plugins [[codox "0.6.4"]
+            [lein-release "1.0.0"]
+            [lein-midje     "3.1.3"]]
   :bootclasspath true
   :lein-release {:deploy-via :lein-deploy}
   :repositories [["snapshots" {:url "https://clojars.org/repo" :creds :gpg}]
@@ -29,4 +29,4 @@
   :codox {:exclude example
           :src-dir-uri "https://github.com/duck1123/octohipster/blob/master"
           :src-linenum-anchor-prefix "L"}
-  :test-paths ["spec/"])
+  )
