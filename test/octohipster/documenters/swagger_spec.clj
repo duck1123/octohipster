@@ -108,6 +108,6 @@
          :apis [{:path "/contacts"
                  :description "Contacts"}]})
   (fact "supports context nesting"
-      (-> (request :get "/api-docs.json")
-          (header "Accept" "application/json")
-          nested-site :body unjsonify :basePath) => "http://localhost/api"))
+    (-> (request :get "/api-docs.json")
+        (header "Accept" "application/json")
+        nested-site :body unjsonify :basePath) => "http://localhost/api"))

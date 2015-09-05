@@ -19,7 +19,7 @@
   "Compiles a collection of links into the RFC 5988 format.
   Links are required to be maps. The :href key going into the <> part.
   eg. {:href \"/hello\" :rel \"self\" :title \"Title\"}
-      -> </hello>; rel=\"self\" title=\"Title\""
+  -> </hello>; rel=\"self\" title=\"Title\""
   [links]
   (when-not (empty? links)
     (->> links

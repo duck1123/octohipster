@@ -30,9 +30,9 @@
 
 (defn item-resource
   "Mixin that includes all boilerplate for working with single items:
-   - validation (using JSON schema in :schema for PUT requests)
-   - format handling
-   - linking to the item's collection"
+  - validation (using JSON schema in :schema for PUT requests)
+  - format handling
+  - linking to the item's collection"
   [r]
   (let [r (merge {:method-allowed? (lib/request-method-in :get :put :delete)
                   :collection-key :collection
