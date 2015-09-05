@@ -32,19 +32,18 @@
 
 (facts "collection-resource"
   (fact "outputs data using the presenter and handlers"
-    (let [rsp (-> (request :get "/test")
-                  (header "Accept" "application/hal+json")
-                  test-app)]
-      (unjsonify (:body rsp)) =>
-      {:_links {:item {:href "/test/{name}"
-                       :templated true}
-                :self {:href "/test"}}
-       :_embedded {:things [{:_links {:self {:href "/test/a"}}
-                             :name "a"}
-                            {:_links {:self {:href "/test/b"}}
-                             :name "b"}]}}
-
-      (-> rsp :headers (get "Content-Type")) => "application/hal+json"))
+    (let [req (-> (request :get "/test")
+                  (header "Accept" "application/hal+json"))]
+      (test-app req)
+      => (contains {:headers (contains {"Content-Type" "application/hal+json"})
+                    :body #(= (unjsonify %)
+                              {:_links {:item {:href "/test/{name}"
+                                               :templated true}
+                                        :self {:href "/test"}}
+                               :_embedded {:things [{:_links {:self {:href "/test/a"}}
+                                                     :name "a"}
+                                                    {:_links {:self {:href "/test/b"}}
+                                                         :name "b"}]}})})))
 
   (fact "creates items"
     (let [req (-> (request :post "/test")
@@ -56,10 +55,10 @@
 
 (facts "item-resource"
   (fact "outputs data using the presenter and handlers"
-    (let [rsp (-> (request :get "/test/hello")
-                  (header "Accept" "application/hal+json")
-                  test-app)]
-      (unjsonify (:body rsp)) =>
-      {:_links {:collection {:href "/test"}
-                :self {:href "/test/hello"}}
-       :name "hello"})))
+    (let [req (-> (request :get "/test/hello")
+                  (header "Accept" "application/hal+json"))]
+      (test-app req)
+      => (contains {:body #(= (unjsonify %)
+                              {:_links {:collection {:href "/test"}
+                                        :self {:href "/test/hello"}}
+                               :name "hello"})}))))
