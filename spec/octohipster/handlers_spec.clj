@@ -58,7 +58,7 @@
   (it "creates an _embedded wrapper for non-map content and adds templated self links"
     (let [h (-> identity wrap-handler-hal-json wrap-handler-add-clinks wrap-apply-encoder)
           ctx {:representation {:media-type "application/hal+json"}
-               ; liberator does this constantly thing
+               ;; liberator does this constantly thing
                :resource {:clinks (constantly {:entry "/things/{a}"})
                           :item-key (constantly :entry)}
                :data-key :things

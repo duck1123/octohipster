@@ -42,14 +42,14 @@
 
 (defn gen-group [resources c]
   (assoc-map c :resources
-    (fn [r]
-      (-> r
-          (assoc-map :clinks
-                 (fn [[k v]]
-                   [k (->> resources (filter #(= v (:id %))) first :url)]))
-          gen-resource
-          (assoc :route (-> (str (:url c) (:url r)) uri-template->clout clout/route-compile))
-          (dissoc :url)))))
+             (fn [r]
+               (-> r
+                   (assoc-map :clinks
+                              (fn [[k v]]
+                                [k (->> resources (filter #(= v (:id %))) first :url)]))
+                   gen-resource
+                   (assoc :route (-> (str (:url c) (:url r)) uri-template->clout clout/route-compile))
+                   (dissoc :url)))))
 
 (defn gen-groups [c]
   (map (partial gen-group (all-resources c)) c))
@@ -57,9 +57,9 @@
 (defn gen-handler [resources]
   (fn [req]
     (if-let [h (->> resources
-                 (map #(assoc % :match (clout/route-matches (:route %) req)))
-                 (filter :match)
-                 first)]
+                    (map #(assoc % :match (clout/route-matches (:route %) req)))
+                    (filter :match)
+                    first)]
       (let [{:keys [handler match]} h]
         (handler (assoc req :route-params match)))
       {:body {}

@@ -57,8 +57,8 @@
   (it "calls documenters"
     (defn dcdocumenter [options]
       (resource
-        :url "/test-doc"
-        :handle-ok (fn [ctx] (jsonify {:things (map (fn [r] {:url (:url r)}) (:resources options))}))))
+       :url "/test-doc"
+       :handle-ok (fn [ctx] (jsonify {:things (map (fn [r] {:url (:url r)}) (:resources options))}))))
     (defresource dchello
       :url "/what")
     (defroutes dcsite

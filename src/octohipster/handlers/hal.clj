@@ -18,9 +18,9 @@
       (-> x
           (select-keys (filter #(not (mapping %)) (keys x)))
           (assoc :_embedded
-            (into {}
-              (map (fn [[k rel]] [k (mapv #(add-nest-link ctx rel x %) (x k))])
-                   mapping)))))
+                 (into {}
+                       (map (fn [[k rel]] [k (mapv #(add-nest-link ctx rel x %) (x k))])
+                            mapping)))))
     x))
 
 (defhandler wrap-handler-hal-json

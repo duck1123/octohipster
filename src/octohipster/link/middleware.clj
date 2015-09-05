@@ -19,7 +19,7 @@
   [handler]
   (fn [req]
     (handler
-      (assoc req :links
-             (concatv (or (:links req) [])
-                      [{:href (context-relative-uri req)
-                        :rel "self"}])))))
+     (assoc req :links
+            (concatv (or (:links req) [])
+                     [{:href (context-relative-uri req)
+                       :rel "self"}])))))

@@ -13,7 +13,7 @@
   THEY ARE NOT RING MIDDLEWARE. They take a Liberator
   context as an argument, not a Ring request.
   When you create your own, follow the naming convention:
-  wrap-handler-*, not wrap-*." 
+  wrap-handler-*, not wrap-*."
   (:require [liberator.conneg :as neg])
   (:use [octohipster util host]
         [octohipster.handlers core]))
@@ -38,10 +38,10 @@
 
 (def process-clinks
   (memoize
-    (fn [clinks]
-      (let [clinks (apply hash-map (apply concat clinks))]
-        [(expand-clinks (filter (complement templated?) clinks))
-         (expand-clinks (filter templated? clinks))]))))
+   (fn [clinks]
+     (let [clinks (apply hash-map (apply concat clinks))]
+       [(expand-clinks (filter (complement templated?) clinks))
+        (expand-clinks (filter templated? clinks))]))))
 
 (defn wrap-handler-add-clinks [handler]
   (fn [ctx]
@@ -72,7 +72,7 @@
         (assoc :body (-> ctx hdlr data-from-result)))))
 
 (defn wrap-apply-encoder [handler]
-  ; used as ring middleware in apps, as handler wrapper in unit tests
+                                        ; used as ring middleware in apps, as handler wrapper in unit tests
   (fn [req]
     (let [rsp (handler req)]
       (if-let [enc (:encoder rsp)]
