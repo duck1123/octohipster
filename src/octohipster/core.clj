@@ -2,10 +2,17 @@
   "Functions and macros for building REST APIs through
   creating resources, groups and routes."
   (:require [liberator.core :as lib]
+            [liberator.representation :as rep]
             [clout.core :as clout]
             [clojure.string :as string]
             [clojure.tools.logging :as log])
   (:use [octohipster util]))
+
+(defmethod rep/render-map-generic "application/hal+json"
+  [data context]
+  (let [context (assoc-in context [:representation :media-type] "application/json")]
+    ;; FIXME: Body should be stripped of elsewhere
+    (rep/render-map-generic (:body data) context)))
 
 (defn resource
   "Creates a resource. Basically, compiles a map from arguments."
