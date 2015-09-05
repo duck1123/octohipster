@@ -1,11 +1,25 @@
 (ns octohipster.routes
-  (:use [clojure.tools.logging :as log]
-        [ring.middleware params keyword-params nested-params jsonp]
-        [octohipster.documenters schema]
-        [octohipster.params core json cj edn yaml]
-        [octohipster.link header middleware]
-        [octohipster.handlers util json edn yaml]
-        [octohipster core problems host util]))
+  (:require [clojure.tools.logging :as log]
+            [octohipster.core               :refer [gen-doc-resource gen-groups gen-handler]]
+            [octohipster.documenters.schema :refer [schema-doc schema-root-doc]]
+            [octohipster.handlers.edn       :refer [wrap-handler-edn]]
+            [octohipster.handlers.json      :refer [wrap-handler-json]]
+            [octohipster.handlers.util      :refer [wrap-apply-encoder wrap-fallback-negotiation]]
+            [octohipster.handlers.yaml      :refer [wrap-handler-yaml]]
+            [octohipster.host               :refer [wrap-context-bind wrap-host-bind]]
+            [octohipster.link.header        :refer [wrap-link-header]]
+            [octohipster.link.middleware    :refer [wrap-add-self-link]]
+            [octohipster.params.cj          :refer [collection-json-params]]
+            [octohipster.params.core        :refer [wrap-params-formats]]
+            [octohipster.params.edn         :refer [edn-params]]
+            [octohipster.params.json        :refer [json-params]]
+            [octohipster.params.yaml        :refer [yaml-params]]
+            [octohipster.problems           :refer [wrap-expand-problem-ctype wrap-expand-problems]]
+            [octohipster.util               :refer [wrap-cors]]
+            [ring.middleware.jsonp          :refer :all]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.nested-params :refer [wrap-nested-params]]
+            [ring.middleware.params :refer [wrap-params]]))
 
 (defn routes
   "Creates a Ring handler that routes requests to provided groups
