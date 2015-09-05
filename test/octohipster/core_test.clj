@@ -76,7 +76,7 @@
     (defroutes mwsite
       :groups [{:url "", :resources [mwhello]}])
 
-    (-> (request :get "/what") mwsite :body) => "hi")
+    (mwsite (request :get "/what")) => (contains {:body "hi"}))
 
   (fact "calls documenters"
     (defn dcdocumenter [options]
@@ -91,17 +91,19 @@
 
     (defresource dchello
       :url "/what")
+
     (defroutes dcsite
       :groups [{:url "", :resources [dchello]}]
       :documenters [dcdocumenter])
+
     (-> (request :get "/test-doc") dcsite :body unjsonify) =>
     {:things [{:url "/what"}]})
 
   (fact "returns 404 as a problem"
-    (let [response (dcsite (request :get "/whatever123"))]
-      response => (contains
-                   {:status 404
-                    :headers (contains
-                              {"content-type" "application/api-problem+json"})})
-      (unjsonify (:body response)) => {:problemType "http://localhost/problems/resource-not-found"
-                                       :title "Resource not found"})))
+    (dcsite (request :get "/whatever123"))
+    => (contains
+        {:status 404
+         :body #(= (unjsonify %)
+                   {:problemType "http://localhost/problems/resource-not-found"
+                    :title "Resource not found"})
+         :headers (contains {"content-type" "application/api-problem+json"})})))

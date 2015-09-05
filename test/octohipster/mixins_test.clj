@@ -47,12 +47,11 @@
       (-> rsp :headers (get "Content-Type")) => "application/hal+json"))
 
   (fact "creates items"
-    (let [rsp (-> (request :post "/test")
+    (let [req (-> (request :post "/test")
                   (header "Accept" "application/json")
                   (content-type "application/json")
-                  (body "{\"name\":\"1\"}")
-                  test-app)]
-      (-> rsp :headers (get "Location")) => "/test/1"
+                  (body "{\"name\":\"1\"}"))]
+      (test-app req) => (contains {:headers (contains {"Location" "/test/1"})})
       @post-bin => {:name "1"})))
 
 (facts "item-resource"
