@@ -57,7 +57,7 @@
   (fact "creates an _embedded wrapper for non-map content and adds templated self links"
     (let [h (-> identity wrap-handler-hal-json wrap-handler-add-clinks wrap-apply-encoder)
           ctx {:representation {:media-type "application/hal+json"}
-                                        ; liberator does this constantly thing
+               ;; liberator does this constantly thing
                :resource {:clinks (constantly {:entry "/things/{a}"})
                           :item-key (constantly :entry)}
                :data-key :things
@@ -94,20 +94,20 @@
                :data-key :things
                :things {:a 1}}
           ctx2 (assoc ctx :things [{:a 1}])]
-      (-> ctx h :body unjsonify :collection :items first :links) =>
-      [{:rel "test", :href "/hello"}]
-      (-> ctx2 h :body unjsonify :collection :links) =>
-      [{:rel "test", :href "/hello"}]))
+      (-> ctx h :body unjsonify) =>
+      (contains {:collection (contains {:items (contains [(contains {:links [{:rel "test", :href "/hello"}]})])})})
+      (-> ctx2 h :body unjsonify) =>
+      (contains {:collection (contains {:links (contains [{:rel "test", :href "/hello"}])})})))
 
   (fact "converts nested maps into collection+json format"
     (let [h (-> identity wrap-handler-collection-json wrap-apply-encoder)
           ctx {:representation {:media-type "application/vnd.collection+json"}
                :data-key :things
                :things {:hello {:world 1}}}]
-      (-> ctx h :body unjsonify :collection :items first :data) =>
-      [{:name "hello"
-        :value [{:name "world"
-                 :value 1}]}]))
+      (-> ctx h :body unjsonify) =>
+      (contains {:collection (contains {:items (contains [(contains {:data
+                                                                     [{:name "hello"
+                                                                       :value [{:name "world" :value 1}]}]})])})})))
 
   (fact "does not touch non-collection+json requests"
     (let [h (-> identity wrap-handler-collection-json wrap-apply-encoder)
@@ -116,26 +116,26 @@
 
 (facts "item-handler"
   (fact "uses the presenter on the data"
-    (let [h (item-handler (partial + 1) :data)]
-      (h {:data 1}) => {:data-key :data
-                        :data 2})))
+    (let [h (item-handler (partial + 1) :data)
+          ctx {:data 1}]
+      (h ctx) => {:data-key :data :data 2})))
 
 (facts "collection-handler"
   (fact "maps the presenter over the data"
-    (let [h (collection-handler (partial + 1) :data)]
-      (h {:data [1 2]}) => {:data-key :data
-                            :data [2 3]})))
+    (let [h (collection-handler (partial + 1) :data)
+          ctx {:data [1 2]}]
+      (h ctx) => {:data-key :data :data [2 3]})))
 
 (facts "wrap-response-envelope"
   (fact "creates the envelope"
-    (let [h (-> identity wrap-handler-json wrap-response-envelope wrap-apply-encoder)]
-      (-> {:representation {:media-type "application/json"}
-           :data-key :things
-           :things [1 2]} h :body unjsonify) =>
-           {:things [1 2]}))
+    (let [h (-> identity wrap-handler-json wrap-response-envelope wrap-apply-encoder)
+          ctx {:representation {:media-type "application/json"}
+               :data-key :things
+               :things [1 2]}]
+      (h ctx) => (contains {:body #(= (unjsonify %) {:things [1 2]})})))
   (fact "does not touch non-envelope-able types"
-    (let [h (-> identity wrap-handler-hal-json wrap-response-envelope wrap-apply-encoder)]
-      (-> {:representation {:media-type "application/hal+json"}
-           :data-key :things
-           :things {:a 1}} h :body unjsonify) =>
-           {:a 1, :_links {}})))
+    (let [h (-> identity wrap-handler-hal-json wrap-response-envelope wrap-apply-encoder)
+          ctx {:representation {:media-type "application/hal+json"}
+               :data-key :things
+               :things {:a 1}}]
+      (h ctx) => (contains {:body #(= (unjsonify %) {:a 1, :_links {}})}))))
