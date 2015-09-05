@@ -25,8 +25,8 @@
 
 (defn expand-uri-template
   "Expands an RFC 6570 URI Template with a map of arguments."
-  [tpl x]
-  (let [tpl ^UriTemplate (UriTemplate/fromTemplate ^String tpl)]
+  [^String tpl x]
+  (let [tpl ^UriTemplate (UriTemplate/fromTemplate tpl)]
     (doseq [[k v] x]
       (.set tpl (name k) (str v)))
     (.expand tpl)))
