@@ -20,8 +20,7 @@
         handler/wrap-default-handler
         ((fn [handler] (fn [request]
                         (log/debug "Running ok handler")
-                        (handler request)) ))
-        )))
+                        (handler request)))))))
 
 (defn handled-resource
   "Mixin to add datatype handling"
