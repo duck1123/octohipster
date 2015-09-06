@@ -10,23 +10,26 @@
                                        (wrap-json-schema-validator (:schema r))
                                        (wrap-expand-problems (:handlers r)))))
 
+(defn ok-handler
+  [r handler]
+  (let [{:keys [presenter data-key handlers]} r]
+    (-> (handler presenter data-key)
+        (unwrap handlers)
+        (wrap-handler-add-clinks)
+        wrap-default-handler)))
+
 (defn handled-resource
-  ([r] (handled-resource r item-handler))
+  "Mixin to add datatype handling"
+  ([r]
+   (handled-resource r item-handler))
   ([r handler]
    (let [r (merge {:handlers [wrap-handler-json wrap-handler-edn wrap-handler-yaml
                               wrap-handler-hal-json wrap-handler-collection-json]
                    :data-key :data
-                   :presenter identity}
-                  r)
-         {:keys [presenter data-key handlers]} r
-         h (-> (handler presenter data-key)
-               (unwrap handlers)
-               (wrap-handler-add-clinks)
-               wrap-default-handler)]
+                   :presenter identity} r)]
      (-> r
-         (assoc :handle-ok h)
-         (assoc :available-media-types
-                (mapcat (comp :ctypes meta) (:handlers r)))))))
+         (assoc :handle-ok (ok-handler r handler))
+         (assoc :available-media-types (mapcat (comp :ctypes meta) (:handlers r)))))))
 
 (defn item-resource
   "Mixin that includes all boilerplate for working with single items:
