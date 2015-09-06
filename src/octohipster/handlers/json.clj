@@ -6,4 +6,8 @@
 (defhandler wrap-handler-json
   "Wraps a handler with a JSON handler."
   ["application/json"]
-  (make-handler-fn jsonify))
+  (make-handler-fn
+   (fn [response]
+     (when response
+       (log/debug "Handling response as json")
+       (jsonify response)))))
