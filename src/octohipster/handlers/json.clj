@@ -8,6 +8,6 @@
   ["application/json"]
   (make-handler-fn
    (fn [response]
-     (when response
+     (when (log/spy :info response)
        (log/debug "Handling response as json")
        (jsonify response)))))
