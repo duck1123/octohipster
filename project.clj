@@ -24,7 +24,8 @@
                                   [org.slf4j/slf4j-api "1.7.12"]
                                   [org.slf4j/slf4j-log4j12 "1.7.12"]
                                   [org.apache.logging.log4j/log4j-core "2.3"]]}}
-  :plugins [[codox "0.8.10"]
+  :plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]
+            [codox "0.8.10"]
             [lein-ancient "0.6.7"]
             [lein-release "1.1.3"]
             [lein-midje     "3.1.3"]]
