@@ -17,26 +17,27 @@
   requires wrapping the Ring handler with octohipster.handlers/wrap-collection-json."
   ["application/vnd.collection+json"]
   (fn [hdlr ctx]
-    (let [rsp (hdlr ctx)
-          links (response-links-and-templates rsp)
-          dk (:data-key rsp)
-          result (dk rsp)
-          items (if (map? result)
-                  [(-> (cj-wrap ctx (name (or (:item-key ctx) :item)) result)
-                       (assoc :links (-> links
-                                         links-as-map
-                                         (dissoc "self")
-                                         (dissoc "listing")
-                                         links-as-seq))
-                       (assoc :href (:href (get links "self"))))]
-                  (map (partial cj-wrap ctx dk) result))
-          coll {:version "1.0"
-                :href (if-let [up (get links "listing")]
-                        (:href up)
-                        (-> ctx :request :uri))
-                :links (if (map? result) [] links)
-                :items items}]
-      (-> ctx resp-common
-          (assoc :encoder jsonify)
-          (assoc :body-no-envelope? true)
-          (assoc :body {:collection coll})))))
+    (do (log/info "handling json collection")
+        (let [rsp (hdlr ctx)
+              links (response-links-and-templates rsp)
+              dk (:data-key rsp)
+              result (dk rsp)
+              items (if (map? result)
+                      [(-> (cj-wrap ctx (name (or (:item-key ctx) :item)) result)
+                           (assoc :links (-> links
+                                             links-as-map
+                                             (dissoc "self")
+                                             (dissoc "listing")
+                                             links-as-seq))
+                           (assoc :href (:href (get links "self"))))]
+                      (map (partial cj-wrap ctx dk) result))
+              coll {:version "1.0"
+                    :href (if-let [up (get links "listing")]
+                            (:href up)
+                            (-> ctx :request :uri))
+                    :links (if (map? result) [] links)
+                    :items items}]
+          (-> ctx resp-common
+              (assoc :encoder jsonify)
+              (assoc :body-no-envelope? true)
+              (assoc :body {:collection coll}))))))

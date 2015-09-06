@@ -13,11 +13,15 @@
 
 (defn post-item
   [ctx]
+  (log/info "Posting to test collection")
   (->> ctx :request :non-query-params (reset! post-bin)))
 
 (defn post-exists?
   [ctx]
-  {:things [{:name "a"} {:name "b"}]})
+  (log/info "checking exist")
+  {:location "/test/1"
+   :status 400
+   :things [{:name "a"} {:name "b"}]})
 
 (defresource test-coll
   :mixins [collection-resource]
