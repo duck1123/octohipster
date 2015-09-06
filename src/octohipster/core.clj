@@ -31,9 +31,16 @@
   "Creates a group and defines a var with it."
   [n & body] `(def ~n (group ~@body)))
 
+(defn handle-resource
+  [r ctx]
+  (let [middleware (:middleware r)
+        r (apply-kw lib/resource r)
+        handler (unwrap r middleware)]
+    (handler ctx)))
+
 (defn gen-resource [r]
   {:url (:url r)
-   :handler (unwrap (apply-kw lib/resource r) (:middleware r))})
+   :handler (partial handle-resource r)})
 
 (defn- make-url-combiner [u]
   (fn [x] (assoc x :url (str u (:url x)))))
