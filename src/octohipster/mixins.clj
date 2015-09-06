@@ -73,3 +73,7 @@
                                         :default-per-page default-per-page}))
         validated-resource
         (handled-resource handler/collection-handler))))
+
+(defn spy-context
+  [r]
+  (log/spy :info r))

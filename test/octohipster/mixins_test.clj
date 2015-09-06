@@ -24,7 +24,7 @@
    :things [{:name "a"} {:name "b"}]})
 
 (defresource test-coll
-  :mixins [collection-resource]
+  :mixins [collection-resource spy-context]
   :clinks {:item ::test-item}
   :data-key :things
   :exists? post-exists?
