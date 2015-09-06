@@ -1,4 +1,4 @@
-(ns octohipster.documenters.swagger-spec
+(ns octohipster.documenters.swagger-test
   (:use [ring.mock request]
         [octohipster core mixins routes json]
         [octohipster.documenters swagger])

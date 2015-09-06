@@ -1,4 +1,4 @@
-(ns octohipster.documenters.schema-spec
+(ns octohipster.documenters.schema-test
   (:use [ring.mock request]
         [octohipster core routes json]
         [octohipster.documenters schema])
