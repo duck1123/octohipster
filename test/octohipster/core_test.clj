@@ -7,13 +7,13 @@
             [octohipster.json :refer [jsonify unjsonify]]
             [octohipster.routes :refer [defroutes routes]]))
 
-(facts "defresource"
+(facts "#'octohipster.core/defresource"
   (fact "adds the id"
     (defresource aaa :a 1)
 
     aaa => {:a 1 :id ::aaa}))
 
-(facts "group"
+(facts "#'octohipster.core/group"
   (fact "adds stuff to resources"
 
     (group
@@ -28,7 +28,7 @@
      :add-to-resources {:c 2}) =>
      {:resources [{:a 1, :b 2, :c 2}]}))
 
-(facts "routes"
+(facts "#'octohipster.core/routes"
   (fact "assembles the ring handler"
     (let [rsrc {:url "/{name}",
                 :handle-ok (fn [ctx]
