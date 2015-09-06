@@ -43,17 +43,19 @@
   (fact "outputs data using the presenter and handlers"
     (let [req (-> (request :get "/test")
                   (header "Accept" "application/hal+json"))]
+
       (test-app req)
       => (every-checker
-          (contains {:headers (contains
+          (contains {:status 200
+                     :headers (contains
                                {"Content-Type" "application/hal+json"})})
           (fn [m]
-            (checking/extended-=
-             (unjsonify (:body m))
-             {:_links {:item {:href "/test/{name}" :templated true}
-                       :self {:href "/test"}}
-              :_embedded {:things [{:_links {:self {:href "/test/a"}} :name "a"}
-                                   {:_links {:self {:href "/test/b"}} :name "b"}]}})))))
+            (fact
+              (unjsonify (:body m))
+              => (contains {:_links {:item {:href "/test/{name}" :templated true}
+                                     :self {:href "/test"}}
+                            :_embedded {:things [{:_links {:self {:href "/test/a"}} :name "a"}
+                                                 {:_links {:self {:href "/test/b"}} :name "b"}]}}))))))
 
   (fact "creates items"
     (let [req (-> (request :post "/test")
