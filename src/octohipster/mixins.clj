@@ -64,7 +64,7 @@
                   :is-multiple? true
                   :default-per-page 25}
                  r)
-        {:keys [item-key count default-per-page]} (log/spy :info r)]
+        {:keys [item-key count default-per-page]} r]
     (-> r
         (assoc :see-other (params-rel (item-key)))
         (assoc :location (params-rel (item-key)))
