@@ -10,6 +10,7 @@
 
 (defmethod rep/render-map-generic "application/hal+json"
   [data context]
+  (log/debug "Handling response as hal")
   (let [context (assoc-in context [:representation :media-type] "application/json")]
     ;; FIXME: Body should be stripped of elsewhere
     (rep/render-map-generic (:body data) context)))
