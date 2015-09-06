@@ -1,8 +1,9 @@
 (ns octohipster.mixins
   (:require [clojure.tools.logging :as log]
-            [liberator.core :as lib])
+            [liberator.core :as lib]
+            [octohipster.handlers.core :as handler])
   (:use [octohipster pagination problems validator util]
-        [octohipster.handlers core json edn yaml hal cj util]
+        [octohipster.handlers json edn yaml hal cj util]
         [octohipster.link util]))
 
 (defn validated-resource [r]
@@ -16,12 +17,12 @@
     (-> (handler presenter data-key)
         (unwrap handlers)
         (wrap-handler-add-clinks)
-        wrap-default-handler)))
+        handler/wrap-default-handler)))
 
 (defn handled-resource
   "Mixin to add datatype handling"
   ([r]
-   (handled-resource r item-handler))
+   (handled-resource r handler/item-handler))
   ([r handler]
    (let [r (merge {:handlers [wrap-handler-json wrap-handler-edn wrap-handler-yaml
                               wrap-handler-hal-json wrap-handler-collection-json]
@@ -45,7 +46,7 @@
                  r)]
     (-> r
         validated-resource
-        (handled-resource item-handler))))
+        (handled-resource handler/item-handler))))
 
 (defn collection-resource
   "Mixin that includes all boilerplate for working with collections of items:
@@ -68,4 +69,4 @@
                    #(wrap-pagination % {:counter count
                                         :default-per-page default-per-page}))
         validated-resource
-        (handled-resource collection-handler))))
+        (handled-resource handler/collection-handler))))
