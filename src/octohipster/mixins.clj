@@ -16,11 +16,16 @@
   (let [{:keys [presenter data-key handlers]} r]
     (-> (handler presenter data-key)
         (unwrap handlers)
+        ((fn [handler] (fn [ctx]
+                        (log/debug "Running ok handler")
+                        (log/spy :info (-> ctx
+                                           (dissoc :resource)
+                                           (dissoc :data)
+
+                                           ))
+                        (log/spy :info (handler ctx)))))
         (wrap-handler-add-clinks)
         handler/wrap-default-handler
-        ((fn [handler] (fn [request]
-                        (log/debug "Running ok handler")
-                        (handler request)) ))
         )))
 
 (defn handled-resource
