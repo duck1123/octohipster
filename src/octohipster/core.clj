@@ -72,9 +72,10 @@
 (defn gen-handler [resources]
   (fn [req]
     (if-let [h (match-resource req resources)]
-      (let [{:keys [handler match]} h
-            request (assoc req :route-params match)]
-        (handler request))
+      (do (log/debug (str "Route matched: " (:uri req)))
+          (let [{:keys [handler match]} h
+             request (assoc req :route-params match)]
+         (handler request)))
       {:body {}
        :problem :resource-not-found})))
 

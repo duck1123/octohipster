@@ -38,6 +38,7 @@
   - format handling
   - linking to the item's collection"
   [r]
+  (log/debug "mixing in item resource")
   (let [r (merge {:method-allowed? (lib/request-method-in :get :put :delete)
                   :collection-key :collection
                   :respond-with-entity? true
@@ -55,6 +56,7 @@
    - linking to the individual items
    - pagination"
   [r]
+  (log/debug "Mixing in collection resource")
   (let [r (merge {:method-allowed? (lib/request-method-in :get :post)
                   :data-key :data
                   :item-key (constantly :item)
