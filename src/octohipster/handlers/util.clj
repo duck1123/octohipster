@@ -78,7 +78,11 @@
   (fn [req]
     (let [response (handler req)]
       (if-let [encoder (:encoder response)]
-        (assoc response :body (encoder (:body response)))
+        (do
+          (log/debug "Applying encoding")
+          (-> response
+              (assoc :body (encoder (:body response)))
+              (dissoc :encoder)))
         response))))
 
 (defn wrap-fallback-negotiation [handler default-handlers]
