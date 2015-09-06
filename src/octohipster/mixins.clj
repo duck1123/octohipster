@@ -67,6 +67,7 @@
         {:keys [item-key count default-per-page]} r]
     (-> r
         (assoc :see-other (params-rel (item-key)))
+        (assoc :location (params-rel (item-key)))
         (update-in [:middleware] conj
                    #(wrap-pagination % {:counter count
                                         :default-per-page default-per-page}))
