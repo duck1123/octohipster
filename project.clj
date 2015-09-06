@@ -11,6 +11,7 @@
                   :exclusions [hiccup]]
                  [clout "2.1.2"]
                  [cheshire "5.5.0"]
+                 [compojure "1.4.0"]
                  [hiccup "1.0.5"]
                  [clj-yaml "0.4.0"]
                  [inflections "0.9.14"]
