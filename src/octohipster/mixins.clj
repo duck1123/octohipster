@@ -53,14 +53,14 @@
   [r]
   (let [r (merge {:method-allowed? (lib/request-method-in :get :post)
                   :data-key :data
-                  :item-key :item
+                  :item-key (constantly :item)
                   :post-redirect? true
                   :is-multiple? true
                   :default-per-page 25}
                  r)
         {:keys [item-key count default-per-page]} r]
     (-> r
-        (assoc :see-other (params-rel item-key))
+        (assoc :see-other (params-rel (item-key)))
         (update-in [:middleware] conj
                    #(wrap-pagination % {:counter count
                                         :default-per-page default-per-page}))
