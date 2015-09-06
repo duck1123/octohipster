@@ -29,6 +29,7 @@
   requires wrapping the Ring handler with octohipster.handlers/wrap-hal-json."
   ["application/hal+json"]
   (fn [hdlr ctx]
+    (log/debug "handle as hal json")
     (let [rsp (hdlr ctx)
           dk (:data-key rsp)
           result (dk rsp)

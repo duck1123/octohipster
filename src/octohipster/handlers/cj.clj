@@ -17,6 +17,7 @@
   requires wrapping the Ring handler with octohipster.handlers/wrap-collection-json."
   ["application/vnd.collection+json"]
   (fn [hdlr ctx]
+    (log/debug "Handling as json collection")
     (let [rsp (hdlr ctx)
           links (response-links-and-templates rsp)
           dk (:data-key rsp)

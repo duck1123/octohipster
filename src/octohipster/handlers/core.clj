@@ -29,6 +29,7 @@
   ([presenter] (collection-handler presenter :data))
   ([presenter k]
    (fn [ctx]
+     (log/debug "collection handler")
      (-> ctx
          (assoc :data-key k)
          (assoc k (mapv presenter (k ctx)))))))
@@ -39,6 +40,7 @@
   ([presenter] (item-handler presenter :data))
   ([presenter k]
    (fn [ctx]
+     (log/debug "item handler")
      (-> ctx
          (assoc :data-key k)
          (assoc k (presenter (k ctx)))))))
