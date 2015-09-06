@@ -72,13 +72,14 @@
         (assoc :encoder f)
         (assoc :body (-> ctx hdlr data-from-result)))))
 
-(defn wrap-apply-encoder [handler]
-  ;; used as ring middleware in apps, as handler wrapper in unit tests
+(defn wrap-apply-encoder
+  "used as ring middleware in apps, as handler wrapper in unit tests"
+  [handler]
   (fn [req]
-    (let [rsp (handler req)]
-      (if-let [enc (:encoder rsp)]
-        (assoc rsp :body ((:encoder rsp) (:body rsp)))
-        rsp))))
+    (let [response (handler req)]
+      (if-let [encoder (:encoder response)]
+        (assoc response :body (encoder (:body response)))
+        response))))
 
 (defn wrap-fallback-negotiation [handler default-handlers]
   (fn [req]
