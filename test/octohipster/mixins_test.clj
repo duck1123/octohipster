@@ -7,12 +7,20 @@
 
 (def post-bin (atom nil))
 
+(defn post-item
+  [ctx]
+  (->> ctx :request :non-query-params (reset! post-bin)))
+
+(defn post-exists?
+  [ctx]
+  {:things [{:name "a"} {:name "b"}]})
+
 (defresource test-coll
   :mixins [collection-resource]
   :clinks {:item ::test-item}
   :data-key :things
-  :exists? (fn [ctx] {:things [{:name "a"} {:name "b"}]})
-  :post! (fn [ctx] (->> ctx :request :non-query-params (reset! post-bin)))
+  :exists? post-exists?
+  :post! post-item
   :count (constantly 2))
 
 (defresource test-item
