@@ -67,10 +67,8 @@
                   (body "{\"name\":\"1\"}"))]
       (test-app req) =>
       (contains {:headers (contains {"Location" "/test/1"})
-                 :status 200
-                 :body (fn [body]
-                         (fact
-                           body => "null"))})
+                 :status 303
+                 :body nil})
       @post-bin => {:name "1"})))
 
 (facts "item-resource"
