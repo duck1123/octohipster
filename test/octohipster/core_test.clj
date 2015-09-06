@@ -1,5 +1,7 @@
 (ns octohipster.core-test
-  (:require [ring.mock.request :refer [request]]
+  (:require [clojure.tools.logging :as log]
+            [clout.core :as clout]
+            [ring.mock.request :refer [request]]
             [midje.sweet :refer :all]
             [octohipster.core :refer :all]
             [octohipster.json :refer [jsonify unjsonify]]
@@ -107,3 +109,9 @@
                    {:problemType "http://localhost/problems/resource-not-found"
                     :title "Resource not found"})
          :headers (contains {"content-type" "application/api-problem+json"})})))
+
+(facts "#'octohipster.core/gen-handler"
+  (let [resources [{:route (clout/route-compile "/")
+                    :handler (fn [request] ..response..)}]
+        req {:uri "/"}]
+    ((gen-handler resources) req) => ..response..))

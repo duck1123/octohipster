@@ -55,12 +55,16 @@
 (defn gen-groups [c]
   (map (partial gen-group (all-resources c)) c))
 
+(defn match-resource
+  [req resources]
+  (->> resources
+       (map #(assoc % :match (clout/route-matches (:route %) req)))
+       (filter :match)
+       first))
+
 (defn gen-handler [resources]
   (fn [req]
-    (if-let [h (->> resources
-                    (map #(assoc % :match (clout/route-matches (:route %) req)))
-                    (filter :match)
-                    first)]
+    (if-let [h (match-resource req resources)]
       (let [{:keys [handler match]} h
             request (assoc req :route-params match)]
         (handler request))
