@@ -16,23 +16,15 @@
   (let [{:keys [presenter data-key handlers]} r]
     (-> (handler presenter data-key)
         (unwrap handlers)
-        ((fn [handler] (fn [ctx]
-                        (log/debug "Running ok handler")
-                        (log/spy :info (-> ctx
-                                           (dissoc :resource)
-                                           (dissoc :data)
-
-                                           ))
-                        (log/spy :info (handler ctx)))))
         (wrap-handler-add-clinks)
-        handler/wrap-default-handler
-        )))
+        handler/wrap-default-handler)))
 
 (defn handled-resource
   "Mixin to add datatype handling"
   ([r]
    (handled-resource r handler/item-handler))
   ([r handler]
+   (log/debug "handles resource")
    (let [r (merge {:handlers [wrap-handler-json wrap-handler-edn wrap-handler-yaml
                               wrap-handler-hal-json wrap-handler-collection-json]
                    :data-key :data

@@ -64,10 +64,12 @@
   `(def ~n ~doc (with-meta (handler ~ctypes ~fun) {:ctypes ~ctypes})))
 
 (defn data-from-result [result]
+  (log/debug "getting data from result")
   ((:data-key result) result))
 
 (defn make-handler-fn [f]
   (fn [hdlr ctx]
+    (log/debug "handler fn")
     (-> ctx resp-linked
         (assoc :encoder f)
         (assoc :body (-> ctx hdlr data-from-result)))))
