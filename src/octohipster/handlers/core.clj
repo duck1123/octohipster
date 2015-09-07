@@ -1,7 +1,13 @@
 (ns octohipster.handlers.core
   (:use [octohipster.link util]
         [octohipster util])
-  (:require [clojure.tools.logging :as log]))
+  (:require [clojure.tools.logging :as log]
+            [liberator.representation :refer [ring-response]]))
+
+(defn wrap-ring-response
+  [handler]
+  (fn [ctx]
+    (ring-response (handler ctx))))
 
 (defn wrap-handler-request-links [handler]
   (fn [ctx]
@@ -14,7 +20,8 @@
   "Wraps a handler with default data transformers"
   [handler]
   (-> handler
-      wrap-handler-request-links))
+      wrap-handler-request-links
+      wrap-ring-response))
 
 (defn collection-handler
   "Makes a handler that maps a presenter over data that is retrieved
