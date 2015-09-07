@@ -44,18 +44,14 @@
     (let [req (-> (request :get "/test")
                   (header "Accept" "application/hal+json"))]
 
-      (test-app req)
-      => (every-checker
-          (contains {:status 200
-                     :headers (contains
-                               {"Content-Type" "application/hal+json"})})
-          (fn [m]
-            (fact
-              (unjsonify (:body m))
-              => (contains {:_links {:item {:href "/test/{name}" :templated true}
-                                     :self {:href "/test"}}
-                            :_embedded {:things [{:_links {:self {:href "/test/a"}} :name "a"}
-                                                 {:_links {:self {:href "/test/b"}} :name "b"}]}}))))))
+      (let [response (test-app req)]
+        response => (contains {:status 200
+                               :headers (contains {"Content-Type" "application/hal+json"})})
+        (unjsonify (:body response)) =>
+        {:_links {:item {:href "/test/{name}" :templated true}
+                  :self {:href "/test"}}
+         :_embedded {:things [{:_links {:self {:href "/test/a"}} :name "a"}
+                              {:_links {:self {:href "/test/b"}} :name "b"}]}})))
 
   (fact "creates items"
     (let [req (-> (request :post "/test")
