@@ -27,6 +27,7 @@
    {:url "/"
     :mixins [handled-resource]
     :exists? (fn [ctx]
-               {:links (links-for-groups options)
+               {
+                ;; :links (links-for-groups options)
                 :_embedded {:schema (assoc (schema-from-options options)
                                            :_links {:self {:href (str *context* "/schema")}})}})}))
