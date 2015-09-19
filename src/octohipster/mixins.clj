@@ -7,9 +7,9 @@
         [octohipster.link util]))
 
 (defn validated-resource [r]
-  (update-in r [:middleware] conj #(-> %
-                                       (wrap-json-schema-validator (:schema r))
-                                       (wrap-expand-problems (:handlers r)))))
+  (update-in (log/spy :info r) [:middleware] conj #(-> %
+                                         (wrap-json-schema-validator (log/spy :info (:schema r)))
+                                         (wrap-expand-problems (:handlers r)))))
 
 (defn ok-handler
   [r handler]
