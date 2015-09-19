@@ -7,6 +7,10 @@
 
 (def post-bin (atom nil))
 
+(def test-schema
+  {:id         "Test"
+   :properties {:name {:type "string"}}})
+
 (defn post-item
   [ctx]
   (->> ctx :request :non-query-params (reset! post-bin)))
@@ -32,8 +36,7 @@
 
 (defgroup test-ctrl
   :url "/test"
-  :add-to-resources {:schema {:id "Test"
-                              :properties {:name {:type "string"}}}}
+  :add-to-resources {:schema test-schema}
   :resources [test-coll test-item])
 
 (defroutes test-app
