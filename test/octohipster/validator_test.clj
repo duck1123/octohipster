@@ -9,10 +9,10 @@
 (defn handler [req] {:status 200})
 
 (def schema
-  {:id "Contact"
-   :type "object"
+  {:id         "Contact"
+   :type       "object"
    :properties {:name {:type "string"}}
-   :required [:name]})
+   :required   [:name]})
 
 (def app
   (-> handler
@@ -25,22 +25,26 @@
 
 (facts "wrap-json-schema-validator"
   (fact "validates POST and PUT requests"
-    (-> (request :post "/")
-        (content-type "application/json")
-        (body (jsonify {:name "aaa"}))
-        app :status) => 200
-    (-> (request :put "/")
-        (content-type "application/json")
-        (body (jsonify {:name "aaa"}))
-        app :status) => 200
-    (-> (request :put "/")
-        (content-type "application/json")
-        (body (jsonify {:name 1234}))
-        app :status) => 422
-    (-> (request :post "/")
-        (content-type "application/json")
-        (body (jsonify {:name 1234}))
-        app :status) => 422)
+    (let [req (-> (request :post "/")
+                (content-type "application/json")
+                (body (jsonify {:name "aaa"})))]
+      (app req) => (contains {:status 200}))
+
+    (let [req (-> (request :put "/")
+                  (content-type "application/json")
+                  (body (jsonify {:name "aaa"})))]
+      (app req) => (contains {:status 200}))
+
+    (let [req (-> (request :put "/")
+                   (content-type "application/json")
+                   (body (jsonify {:name 1234})))]
+      (app req) => (contains {:status 422}))
+
+    (let [req (-> (request :post "/")
+                   (content-type "application/json")
+                   (body (jsonify {:name 1234})))]
+      (app req) => (contains {:status 422})))
+
   (fact "uses content negotiation"
     ;; note: not using host binding in test -> no localhost
     (-> (request :post "/")
