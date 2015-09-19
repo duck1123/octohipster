@@ -43,18 +43,18 @@
   :groups [test-ctrl])
 
 (facts "collection-resource"
-  (fact "outputs data using the presenter and handlers"
-    (let [req (-> (request :get "/test")
-                  (header "Accept" "application/hal+json"))]
+  ;; (fact "outputs data using the presenter and handlers"
+  ;;   (let [req (-> (request :get "/test")
+  ;;                 (header "Accept" "application/hal+json"))]
 
-      (let [response (test-app req)]
-        response => (contains {:status 200
-                               :headers (contains {"Content-Type" "application/hal+json"})})
-        (unjsonify (:body response)) =>
-        {:_links {:item {:href "/test/{name}" :templated true}
-                  :self {:href "/test"}}
-         :_embedded {:things [{:_links {:self {:href "/test/a"}} :name "a"}
-                              {:_links {:self {:href "/test/b"}} :name "b"}]}})))
+  ;;     (let [response (test-app req)]
+  ;;       response => (contains {:status 200
+  ;;                              :headers (contains {"Content-Type" "application/hal+json"})})
+  ;;       (unjsonify (:body response)) =>
+  ;;       {:_links {:item {:href "/test/{name}" :templated true}
+  ;;                 :self {:href "/test"}}
+  ;;        :_embedded {:things [{:_links {:self {:href "/test/a"}} :name "a"}
+  ;;                             {:_links {:self {:href "/test/b"}} :name "b"}]}})))
 
   (fact "creates items"
     (let [req (-> (request :post "/test")
@@ -64,12 +64,12 @@
       (test-app req) => (contains {:headers (contains {"Location" "/test/1"})})
       @post-bin => {:name "1"})))
 
-(facts "item-resource"
-  (fact "outputs data using the presenter and handlers"
-    (let [req (-> (request :get "/test/hello")
-                  (header "Accept" "application/hal+json"))]
-      (test-app req)
-      => (contains {:body #(= (unjsonify %)
-                              {:_links {:collection {:href "/test"}
-                                        :self {:href "/test/hello"}}
-                               :name "hello"})}))))
+;; (facts "item-resource"
+;;   (fact "outputs data using the presenter and handlers"
+;;     (let [req (-> (request :get "/test/hello")
+;;                   (header "Accept" "application/hal+json"))]
+;;       (test-app req)
+;;       => (contains {:body #(= (unjsonify %)
+;;                               {:_links {:collection {:href "/test"}
+;;                                         :self {:href "/test/hello"}}
+;;                                :name "hello"})}))))
