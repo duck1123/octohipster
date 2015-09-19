@@ -23,6 +23,7 @@
   "Creates a resource and defines a var with it,
   adding the var under :id as a namespace-qualified keyword."
   [n & {:as options}]
+  (log/debug (str "Creating Resource: " n))
   `(def ~n
      (let [options# (merge ~options {:id ~(keyword (str *ns* "/" n))})]
        (resource options#))))
@@ -39,9 +40,9 @@
 
 (defmacro defgroup
   "Creates a group and defines a var with it."
-  [n & {:as body}]
+  [n & {:as options}]
   (log/debug (str "Creating Group: " n))
-  `(def ~n (group ~body)))
+  `(def ~n (group ~options)))
 
 (defn handle-resource
   [r ctx]
