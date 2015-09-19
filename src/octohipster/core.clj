@@ -36,8 +36,7 @@
   resources and applying mixins to them."
   [options]
   (-> options
-      ;; (assoc-map :resources
-      ;;            (comp (partial merge (:add-to-resources options))))
+      (assoc-map :resources (partial merge (:add-to-resources options)))
       (dissoc :add-to-resources)))
 
 (defmacro defgroup
