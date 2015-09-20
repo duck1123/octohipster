@@ -88,8 +88,8 @@
     (if-let [h (match-resource req resources)]
       (do (log/debug (str "Route matched: " (:uri req)))
           (let [{:keys [handler match]} h
-             request (assoc req :route-params match)]
-         (handler request)))
+                request (assoc req :route-params match)]
+            (log/spy :info (handler request))))
       {:body {}
        :problem :resource-not-found})))
 
