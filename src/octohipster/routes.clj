@@ -21,13 +21,6 @@
             [ring.middleware.nested-params :refer [wrap-nested-params]]
             [ring.middleware.params :refer [wrap-params]]))
 
-(defn update-groups
-  [groups resources]
-  (map (fn [[gvar group]]
-         (assoc group :resources
-                (map val (get resources gvar))))
-       groups))
-
 (defn routes
   "Creates a Ring handler that routes requests to provided groups
   and documenters."
