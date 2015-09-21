@@ -16,27 +16,32 @@
 
 (defn resource
   "Creates a resource. Basically, compiles a map from arguments."
-  [& body] (apply hash-map body))
+  [options]
+  (identity options))
 
 (defmacro defresource
   "Creates a resource and defines a var with it,
   adding the var under :id as a namespace-qualified keyword."
-  [n & body] `(def ~n (resource ~@body :id ~(keyword (str *ns* "/" n)))))
+  [n & {:as options}]
+  `(def ~n
+     (let [options# (merge ~options {:id ~(keyword (str *ns* "/" n))})]
+       (resource options#))))
 
 (defn group
   "Creates a group, adding everything from :add-to-resources to all
   resources and applying mixins to them."
-  [& body]
-  (let [c (apply hash-map body)]
-    (-> c
-        (assoc-map :resources
-                   (comp (fn [r] (unwrap (dissoc r :mixins) (:mixins r)))
-                         (partial merge (:add-to-resources c))))
-        (dissoc :add-to-resources))))
+  [options]
+  (-> options
+      (assoc-map :resources
+                 (comp (fn [r] (unwrap (dissoc r :mixins) (:mixins r)))
+                       (partial merge (:add-to-resources options))))
+      (dissoc :add-to-resources)))
 
 (defmacro defgroup
   "Creates a group and defines a var with it."
-  [n & body] `(def ~n (group ~@body)))
+  [n & {:as body}]
+  (log/debug (str "Creating Group: " n))
+  `(def ~n (group ~body)))
 
 (defn handle-resource
   [r ctx]
@@ -87,6 +92,6 @@
        :problem :resource-not-found})))
 
 (defn gen-doc-resource [options d]
-  (->> (group :url "", :resources [(d options)])
+  (->> (group {:url "", :resources [(d options)]})
        (gen-group (:groups options))
        :resources first))

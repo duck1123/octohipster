@@ -13,9 +13,9 @@
 
 (defn swagger-root-doc [options]
   (resource
-   :url "/api-docs.json"
-   :mixins [handled-resource]
-   :exists? (fn [ctx] {:data (swagger-root (:groups options))})))
+   {:url "/api-docs.json"
+    :mixins [handled-resource]
+    :exists? (fn [ctx] {:data (swagger-root (:groups options))})}))
 
 (defn doc->operation [res [k v]]
   (-> v
@@ -49,7 +49,7 @@
 
 (defn swagger-doc [options]
   (resource
-   :url "/api-docs.json/{path}"
-   :mixins [handled-resource]
-   :exists? (fn [ctx] {:data (swagger-api-decl (:groups options)
-                                              (str "/" (-> ctx :request :route-params :path)))})))
+   {:url "/api-docs.json/{path}"
+    :mixins [handled-resource]
+    :exists? (fn [ctx] {:data (swagger-api-decl (:groups options)
+                                               (str "/" (-> ctx :request :route-params :path)))})}))

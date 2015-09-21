@@ -24,7 +24,7 @@
 (defn routes
   "Creates a Ring handler that routes requests to provided groups
   and documenters."
-  [& body]
+  [body]
   (let [defaults {:params [json-params collection-json-params yaml-params edn-params]
                   :documenters [schema-doc schema-root-doc]
                   :groups []
@@ -33,7 +33,7 @@
                              :invalid-data {:status 422
                                             :title "Invalid data"}}}
         {:keys [documenters groups params]
-         :as options} (merge defaults (apply hash-map body))
+         :as options} (merge defaults body)
         problems (merge (:problems defaults) (:problems options))
         resources (mapcat :resources (gen-groups groups))
         raw-resources (mapcat :resources groups)
@@ -64,4 +64,5 @@
 
 (defmacro defroutes
   "Creates a Ring handler (see routes) and defines a var with it."
-  [n & body] `(def ~n (routes ~@body)))
+  [n & {:as body}]
+  `(def ~n (routes ~body)))

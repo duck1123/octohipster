@@ -13,9 +13,9 @@
 
 (defn schema-doc [options]
   (resource
-   :url "/schema"
-   :mixins [handled-resource]
-   :exists? (fn [ctx] {:data (schema-from-options options)})))
+   {:url "/schema"
+    :mixins [handled-resource]
+    :exists? (fn [ctx] {:data (schema-from-options options)})}))
 
 (defn- links-for-groups [options]
   (->> options :groups
@@ -24,9 +24,9 @@
 
 (defn schema-root-doc [options]
   (resource
-   :url "/"
-   :mixins [handled-resource]
-   :exists? (fn [ctx]
-              {:links (links-for-groups options)
-               :_embedded {:schema (assoc (schema-from-options options)
-                                          :_links {:self {:href (str *context* "/schema")}})}})))
+   {:url "/"
+    :mixins [handled-resource]
+    :exists? (fn [ctx]
+               {:links (links-for-groups options)
+                :_embedded {:schema (assoc (schema-from-options options)
+                                           :_links {:self {:href (str *context* "/schema")}})}})}))

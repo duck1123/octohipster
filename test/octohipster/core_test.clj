@@ -17,15 +17,15 @@
   (fact "adds stuff to resources"
 
     (group
-     :resources [{:a 1} {:a 2}]
-     :add-to-resources {:global 0}) =>
+     {:resources [{:a 1} {:a 2}]
+      :add-to-resources {:global 0}}) =>
      {:resources [{:a 1, :global 0}
                   {:a 2, :global 0}]})
 
   (fact "applies mixins to resources"
     (group
-     :resources [{:a 1, :mixins [#(assoc % :b (:c %))]}]
-     :add-to-resources {:c 2}) =>
+     {:resources [{:a 1, :mixins [#(assoc % :b (:c %))]}]
+      :add-to-resources {:c 2}}) =>
      {:resources [{:a 1, :b 2, :c 2}]}))
 
 (facts "#'octohipster.core/routes"
@@ -38,7 +38,7 @@
                                             :route-params
                                             :name)))}
           cntr {:url "/hello", :resources [rsrc]}
-          r (routes :groups [cntr])]
+          r (routes {:groups [cntr]})]
       (r (request :get "/hello/me")) => (contains {:body "Hello me"})))
 
   (fact "replaces clinks"
@@ -83,13 +83,13 @@
   (fact "calls documenters"
     (defn dcdocumenter [options]
       (resource
-       :url "/test-doc"
-       :handle-ok (fn [ctx]
-                    (jsonify
-                     {:things
-                      (map (fn [r]
-                             {:url (:url r)})
-                           (:resources options))}))))
+       {:url "/test-doc"
+        :handle-ok (fn [ctx]
+                     (jsonify
+                      {:things
+                       (map (fn [r]
+                              {:url (:url r)})
+                            (:resources options))}))}))
 
     (defresource dchello
       :url "/what")
