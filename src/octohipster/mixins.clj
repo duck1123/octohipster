@@ -7,8 +7,8 @@
         [octohipster.link util]))
 
 (defn validated-resource [r]
-  (update-in (log/spy :info r) [:middleware] conj #(-> %
-                                         (wrap-json-schema-validator (log/spy :info (:schema r)))
+  (update-in r [:middleware] conj #(-> %
+                                         (wrap-json-schema-validator (:schema r))
                                          (wrap-expand-problems (:handlers r)))))
 
 (defn ok-handler
@@ -38,7 +38,7 @@
   - format handling
   - linking to the item's collection"
   [r]
-  (log/debug "mixing in item resource")
+  ;; (log/debug "mixing in item resource")
   (let [r (merge {:method-allowed? (lib/request-method-in :get :put :delete)
                   :collection-key :collection
                   :respond-with-entity? true
@@ -56,7 +56,7 @@
    - linking to the individual items
    - pagination"
   [r]
-  (log/debug "Mixing in collection resource")
+  ;; (log/debug "Mixing in collection resource")
   (let [r (merge {:method-allowed? (lib/request-method-in :get :post)
                   :data-key :data
                   :item-key (constantly :item)
