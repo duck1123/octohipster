@@ -17,7 +17,10 @@
 (defn resource
   "Creates a resource. Basically, compiles a map from arguments."
   [options]
-  (identity options))
+  (let [mixins (:mixins options)]
+    (-> body
+        (dissoc :mixins)
+        (unwrap mixins))))
 
 (defmacro defresource
   "Creates a resource and defines a var with it,
@@ -33,9 +36,8 @@
   resources and applying mixins to them."
   [options]
   (-> options
-      (assoc-map :resources
-                 (comp (fn [r] (unwrap (dissoc r :mixins) (:mixins r)))
-                       (partial merge (:add-to-resources options))))
+      ;; (assoc-map :resources
+      ;;            (comp (partial merge (:add-to-resources options))))
       (dissoc :add-to-resources)))
 
 (defmacro defgroup
