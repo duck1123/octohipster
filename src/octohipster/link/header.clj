@@ -29,11 +29,12 @@
 
 (defn- wrap-link-header-1 [handler k h]
   (fn [req]
-    (let [rsp (-> req
-                  (assoc k (or (k req) []))
-                  handler)]
-      (-> rsp
-          (assoc-in [:headers h] (-> rsp k make-link-header))
+    (let [req (assoc req k (or (k req) []))
+          rsp (handler req)
+          link-header (-> rsp k make-link-header)]
+      (-> (if link-header
+            (assoc-in rsp [:headers h] link-header)
+            rsp)
           (dissoc k)))))
 
 (defn wrap-link-header
