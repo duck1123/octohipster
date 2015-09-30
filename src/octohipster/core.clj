@@ -53,7 +53,7 @@
 
 (defn gen-resource [r]
   {:url (:url r)
-   :handler (partial handle-resource r)})
+   :handler #(handle-resource r %)})
 
 (defn- make-url-combiner [u]
   (fn [x] (assoc x :url (str u (:url x)))))
