@@ -73,7 +73,8 @@
           (contains {:swagger "2.0"
                      :schemes ["http"]
                      :info (contains {:version "1.0"})
-                     :basePath "http://localhost"
+                     :basePath "/"
+                     :host "localhost"
                      :paths
                      (contains
                       {(keyword "/contacts")
@@ -82,4 +83,4 @@
     (fact "supports context nesting"
       (-> (nested-site request)
           :body unjsonify) =>
-          (contains {:basePath "http://localhost/api"}))))
+          (contains {:basePath "/api/"}))))

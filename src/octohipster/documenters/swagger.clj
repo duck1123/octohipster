@@ -67,7 +67,7 @@
    :info {:title (:name options)
           :version api-version}
    :schemes (:schemes options [(name (get-in ctx [:request :scheme] :http))])
-   :basePath (get-in ctx [:request :context] "/")
+   :basePath (str (get-in ctx [:request :context]) "/")
    :host (get-in ctx [:request :headers "host"] "localhost")
    :paths (->> (:groups options)
                (sort-by :name)
