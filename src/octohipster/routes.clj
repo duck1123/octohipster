@@ -43,20 +43,24 @@
                             (assoc :resources raw-resources)))
         resources (concat resources (map docgen documenters))]
     (-> resources gen-handler
-                                        ; Links
+
+        ;; Links
         wrap-add-self-link
         wrap-link-header
-                                        ; Params
+
+        ;; Params
         (wrap-params-formats params)
         wrap-keyword-params
         wrap-nested-params
         wrap-params
-                                        ; Response
+
+        ;; Response
         (wrap-expand-problems problems)
         (wrap-fallback-negotiation [wrap-handler-json wrap-handler-edn wrap-handler-yaml])
         wrap-apply-encoder
         wrap-expand-problem-ctype
-                                        ; Headers, bindings, etc.
+
+        ;; Headers, bindings, etc.
         wrap-cors
         wrap-json-with-padding
         wrap-context-bind
