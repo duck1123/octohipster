@@ -91,7 +91,8 @@
       {:body {}
        :problem :resource-not-found})))
 
-(defn gen-doc-resource [options d]
-  (->> (group {:url "", :resources [(d options)]})
+(defn gen-doc-resource
+  [options documenter]
+  (->> (group {:url "", :resources [(documenter options)]})
        (gen-group (:groups options))
        :resources first))
