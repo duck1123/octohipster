@@ -39,7 +39,7 @@
   - linking to the item's collection"
   [r]
   (log/debug "mixing in item resource")
-  (let [r (merge {:method-allowed? (lib/request-method-in :get :put :delete)
+  (let [r (merge {:allowed-methods [:get :put :delete]
                   :collection-key :collection
                   :respond-with-entity? true
                   :new? false
@@ -57,7 +57,7 @@
    - pagination"
   [r]
   (log/debug "Mixing in collection resource")
-  (let [r (merge {:method-allowed? (lib/request-method-in :get :post)
+  (let [r (merge {:allowed-methods [:get :post]
                   :data-key :data
                   :item-key (constantly :item)
                   :post-redirect? true
