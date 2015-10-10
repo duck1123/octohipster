@@ -38,7 +38,6 @@
   - format handling
   - linking to the item's collection"
   [r]
-  (log/debug "mixing in item resource")
   (let [r (merge {:allowed-methods [:get :put :delete]
                   :collection-key :collection
                   :respond-with-entity? true
