@@ -41,11 +41,10 @@
   (let [validate (make-validator schema)]
     (fn [request]
       (if (#{:post :put} (:request-method request))
-        (do (log/info "Validating submission")
-            (let [document (:non-query-params request)
-                  result (validate document)]
-              (if (is-success? result)
-                (handler request)
-                {:body {:errors (to-clojure result)}
-                 :problem :invalid-data})))
+        (let [document (:non-query-params request)
+              result (validate document)]
+          (if (is-success? result)
+            (handler request)
+            {:body {:errors (to-clojure result)}
+             :problem :invalid-data}))
         (handler request)))))
