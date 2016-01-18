@@ -66,10 +66,9 @@
   {:swagger swagger-version
    :info {:title (:name options)
           :version api-version}
-   :schemes (or (:schemes options)
-                [(or (name (get-in ctx [:request :headers "x-forwarded-proto"]))
-                     (name (get-in ctx [:request :scheme] :https))
-                     "https")])
+   :schemes [(or (get-in ctx [:request :headers "x-forwarded-proto"])
+                 (name (get-in ctx [:request :scheme]))
+                 "https")]
    :basePath (str (get-in ctx [:request :context]) "/")
    :host (or (get-in ctx [:request :headers "x-forwarded-host"])
              (get-in ctx [:request :headers "host"])
