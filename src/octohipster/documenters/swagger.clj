@@ -66,9 +66,11 @@
   {:swagger swagger-version
    :info {:title (:name options)
           :version api-version}
-   :schemes (:schemes options [(name (get-in ctx [:request :scheme] :http))])
+   :schemes (:schemes options [(name (get-in ctx [:request :scheme] :https))])
    :basePath (str (get-in ctx [:request :context]) "/")
-   :host (get-in ctx [:request :headers "host"] "localhost")
+   :host (or (get-in ctx [:request :headers "x-forwarded-host"])
+             (get-in ctx [:request :headers "host"])
+             "localhost")
    :paths (->> (:groups options)
                (sort-by :name)
                (mapcat swagger-group)
