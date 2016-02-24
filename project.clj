@@ -31,9 +31,13 @@
             [lein-release "1.1.3"]
             [lein-midje     "3.1.3"]]
   :lein-release {:deploy-via :lein-deploy}
-  :repositories [["snapshots" {:url "https://clojars.org/repo" :creds :gpg}]
-                 ["releases"  {:url "https://clojars.org/repo" :creds :gpg}]]
   :jar-exclusions [#"example.clj"]
+  :repositories [["snapshots" {:url "http://artifactory.jiksnu.org/artifactory/libs-snapshot-local/"
+                               :username [:gpg :env/artifactory_username]
+                               :password [:gpg :env/artifactory_password]}]
+                 ["releases" {:url "http://artifactory.jiksnu.org/artifactory/libs-releases-local/"
+                              :username [:gpg :env/artifactory_username]
+                              :password [:gpg :env/artifactory_password]}]]
   :codox {:exclude example
           :src-dir-uri "https://github.com/duck1123/octohipster/blob/master"
           :src-linenum-anchor-prefix "L"}
