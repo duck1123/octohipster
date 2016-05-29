@@ -31,6 +31,7 @@
             [lein-release "1.1.3"]
             [lein-midje     "3.1.3"]]
   :lein-release {:deploy-via :lein-deploy}
+  :auto-clean false
   :repositories [["snapshots" {:url "http://repo.jiksnu.org/repository/maven-snapshots/"
                                :username [:gpg :env/repo_username]
                                :password [:gpg :env/repo_password]}]
