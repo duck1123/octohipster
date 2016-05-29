@@ -31,8 +31,12 @@
             [lein-release "1.1.3"]
             [lein-midje     "3.1.3"]]
   :lein-release {:deploy-via :lein-deploy}
-  :repositories [["snapshots" {:url "https://clojars.org/repo" :creds :gpg}]
-                 ["releases"  {:url "https://clojars.org/repo" :creds :gpg}]]
+  :repositories [["snapshots" {:url "http://repo.jiksnu.org/repository/maven-snapshots/"
+                               :username [:gpg :env/repo_username]
+                               :password [:gpg :env/repo_password]}]
+                 ["releases" {:url "http://repo.jiksnu.org/repository/maven-releases/"
+                              :username [:gpg :env/repo_username]
+                              :password [:gpg :env/repo_password]}]]
   :jar-exclusions [#"example.clj"]
   :codox {:exclude example
           :src-dir-uri "https://github.com/duck1123/octohipster/blob/master"
