@@ -19,12 +19,10 @@
                  [com.github.fge/json-schema-validator "2.2.6"]
                  [com.damnhandy/handy-uri-templates "2.1.6"]]
   :profiles {:dev {:dependencies [[midje "1.8.3"                  :exclusions [org.clojure/clojure]]
-                                  [com.novemberain/monger "3.1.0" :exclusions [org.clojure/clojure]]
-                                  [http-kit "2.2.0"               :exclusions [org.clojure/clojure]]
                                   [ring-mock "0.1.5"              :exclusions [org.clojure/clojure]]
-                                  [org.slf4j/slf4j-api "1.7.21"]
                                   [org.slf4j/slf4j-log4j12 "1.7.21"]
-                                  [org.apache.logging.log4j/log4j-core "2.7"]]}}
+                                  ;; [org.apache.logging.log4j/log4j-core "2.7"]
+                                  ]}}
   :plugins [[cider/cider-nrepl "0.10.0-SNAPSHOT"]
             [codox "0.8.10"]
             [lein-ancient "0.6.7"]
