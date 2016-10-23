@@ -16,7 +16,7 @@
                  [clj-yaml "0.4.0"]
                  [inflections "0.12.2"]
                  [org.bovinegenius/exploding-fish "0.3.4"]
-                 [com.github.fge/json-schema-validator "2.2.6"]
+                 [com.github.fge/json-schema-validator "2.1.3"]
                  [com.damnhandy/handy-uri-templates "2.1.6"]]
   :profiles {:dev {:dependencies [[midje "1.8.3"                  :exclusions [org.clojure/clojure]]
                                   [ring-mock "0.1.5"              :exclusions [org.clojure/clojure]]
