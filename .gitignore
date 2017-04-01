@@ -6,6 +6,7 @@
 /doc
 /src/example.clj
 pom.xml
+*.iml
 *.jar
 *.class
 .lein-deps-sum
